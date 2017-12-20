@@ -5,13 +5,37 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const config = require('./webpack.dev.config')
 const httpProxy = require('http-proxy')
+const qenya = require('qenya')
 const DEVPORT = 3001
 
 
 const app = new Koa()
 const router = new Router()
 
-
+qenya({
+  appPort:3002,
+  apiPort:3003,
+  render:function(res){
+    if (res.data) {
+      return res.data
+    }else {
+      return{
+        err:res.errors[0].message
+      }
+    }
+  }
+})
+const proxy = new httpProxy.createProxyServer({
+    target: 'http://localhost:3003/',
+    changeOrigin: true
+})
+const methods = ['get', 'post', 'put', 'delete']
+methods.forEach(m =>
+  router[m]('/api/*', function (ctx) {
+    proxy.web(ctx.req, ctx.res)
+    ctx.body = ctx.res
+  })
+)
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,

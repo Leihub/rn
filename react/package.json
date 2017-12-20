@@ -10,6 +10,7 @@
     "koa-router": "^7.3.0",
     "koa-send": "^4.1.2",
     "prop-types": "^15.6.0",
+    "qenya": "^0.3.6",
     "query-string": "^5.0.1",
     "rctui": "^0.7.20",
     "react": "^16.2.0",
