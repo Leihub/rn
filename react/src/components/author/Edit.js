@@ -46,5 +46,9 @@ class Edit extends Component {
 
 Edit.propTypes = {
   data:PropTypes.object,
-  history:PropTypes.
+  history:PropTypes.object.isRequired
 }
+Edit.defalutProps = {
+  data:{}
+}
+export default fetch(Edit)
